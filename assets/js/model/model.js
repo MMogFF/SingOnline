@@ -1,13 +1,15 @@
 import { supabase } from "../script.js";
 
-export const fetchSongs = async () => {
-    const { data, error } = await supabase
-    .from('songs')                      // Tabelnavn
-    .select('*, artists(name)')  // Vælg kolonner og relationer
-    if (error) {
-      throw error;
-    }
-    return data
+export const fetchSongs = async (searchInput) => {
+
+        const { data, error } = await supabase
+            .from('songs')                      // Tabelnavn
+            .select('*, artists(name)')  // Vælg kolonner og relationer
+        if (error) {
+            throw error;
+        }
+        return data
+    
 }
 
 
@@ -18,10 +20,10 @@ export async function getSongs() {
         let { data, error } = await supabase
             .from('songs')
             .select('*, artists(name)');
-            console.log(data);
-            
+        console.log(data);
+
         if (error) throw error;
-        
+
         return data;
     } catch (error) {
         console.error('Error fetching songs:', error);
@@ -39,7 +41,7 @@ export async function getArtists() {
             .select('*');
         if (error) throw error;
         console.log(data);
-        
+
         return data;
     } catch (error) {
         console.error('Error fetching songs:', error);
@@ -54,7 +56,7 @@ export async function getAlbums() {
             .select('*,artists(name)');
         if (error) throw error;
         console.log(data);
-        
+
         return data;
     } catch (error) {
         console.error('Error fetching songs:', error);
@@ -64,10 +66,10 @@ export async function getAlbums() {
 
 export const getRandomItems = (arr) => {
     if (arr.length <= 10) return arr;
-  
+
     const shuffled = arr.sort(() => 0.5 - Math.random());
     return shuffled.slice(0, 10);
-  };
+};
 
 
 
