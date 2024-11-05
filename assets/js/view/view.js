@@ -1,10 +1,8 @@
-import { getSongs } from "../model/model.js";
-import { getArtists } from "../model/model.js";
-import { getAlbums } from "../model/model.js";
 import { app } from "../script.js";
 import { songs } from "../script.js";
 import { getRandomItems } from "../model/model.js";
 import { searchSongs } from "../controller/controller.js";
+import { fetchImg } from "../model/model.js";
 
 
 
@@ -102,7 +100,7 @@ export const buildSearchSongs = async (searchResults) => {
         searchResultsDiv.innerHTML = '';
     }
 
-    
+
 
     if (searchResults.length === 0) {
         const noResultsDiv = document.createElement('div');
@@ -133,6 +131,65 @@ export const buildSearchSongs = async (searchResults) => {
 
 
 }
+
+export const buildArtistsHomePage = async (artists) => {
+    const welcomeDiv = document.createElement('div');
+    welcomeDiv.classList.add('welcomeDiv');
+    app.appendChild(welcomeDiv);
+
+    const h1 = document.createElement('h1');
+    h1.textContent = 'Artists';
+    welcomeDiv.appendChild(h1);
+
+    const h1UnderText = document.createElement('p');
+    h1UnderText.textContent = 'Velkommen til vores side for kunstnere! Her kan du dykke ned i en verden af musik og finde information om dine yndlingskunstnere. Uanset om du leder efter den nyeste popstjerne, en legendarisk rockmusiker eller en upcoming indie-artist, har vi samlet et omfattende bibliotek til dig.';
+    welcomeDiv.appendChild(h1UnderText);
+
+    const h1Span = document.createElement('span');
+    h1Span.textContent = 'Udforsk nu og opdag nye musikalske talenter!';
+    welcomeDiv.appendChild(h1Span);
+
+    const randomArtistsSectionDiv = document.createElement('div');
+    randomArtistsSectionDiv.classList.add('randomArtistsSectionDiv');
+    app.appendChild(randomArtistsSectionDiv);
+
+    const artistsCardDiv = document.createElement('div');
+    artistsCardDiv.classList.add('artistsCardDiv');
+    randomArtistsSectionDiv.appendChild(artistsCardDiv);
+
+    const randomArtists = getRandomItems(artists, 2);
+
+    
+
+    for (const artist of randomArtists) {
+        const artistCard = document.createElement('div');
+        artistCard.classList.add('artistCard');
+        artistsCardDiv.appendChild(artistCard);
+    
+
+        
+        const artistImg = document.createElement('img');
+        artistImg.src = await fetchImg('artists',artist.image);
+        artistCard.appendChild(artistImg);
+    
+        const artistName = document.createElement('h3');
+        artistName.textContent = artist.name;
+        artistCard.appendChild(artistName);
+    
+        const artistBio = document.createElement('p');
+        artistBio.textContent = artist.description;
+        artistCard.appendChild(artistBio);
+
+        const artistButton = document.createElement('button');
+        artistButton.textContent = 'Gå til kunstner';
+        artistButton.addEventListener('click', () => {
+            console.log('Klik på artist');
+        });
+        artistCard.appendChild(artistButton);
+    }
+}
+
+
 
 
 
