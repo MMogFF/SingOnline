@@ -262,7 +262,7 @@ export const buildLyricsPage = (title, artist, lyrics) => {
     lyricsDiv.appendChild(h1);
 
     const artistName = document.createElement('h2');
-    artistName.textContent = artist;
+    artistName.textContent = 'By' + ' ' + artist;
     lyricsDiv.appendChild(artistName);
 
     const lyricsText = document.createElement('pre');
