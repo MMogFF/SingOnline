@@ -1,9 +1,8 @@
-import { getSongs } from "../model/model.js";
-import { getArtists } from "../model/model.js";
-import { getAlbums } from "../model/model.js";
 import { app } from "../script.js";
 import { songs } from "../script.js";
 import { getRandomItems } from "../model/model.js";
+import { searchSongs } from "../controller/controller.js";
+import { fetchImg } from "../model/model.js";
 
 export const buildMainPage = (songs) => {
   const welcomeDiv = document.createElement("div");
