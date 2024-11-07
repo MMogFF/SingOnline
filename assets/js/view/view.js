@@ -128,6 +128,9 @@ export const buildSearchSongs = async (searchResults) => {
         await searchResults.forEach(song => {
             const songDiv = document.createElement('div');
             songDiv.classList.add('songDiv');
+            addEventListener('click', () => {
+                buildLyricsPage(song.title, song.artists.name, song.lyrics);
+            });
             searchResultsDiv.appendChild(songDiv);
 
             const songTitle = document.createElement('h3');

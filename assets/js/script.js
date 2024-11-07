@@ -29,5 +29,5 @@ export const albumRel = await fetchAlbumRel();
 
 import { buildMainPage } from './view/view.js';
 
-// buildMainPage(songs);
+buildMainPage(songs);
 
