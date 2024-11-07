@@ -1,8 +1,10 @@
 import { app } from "../script.js";
+import { albums } from "../script.js";
 import { songs } from "../script.js";
 import { getRandomItems } from "../model/model.js";
 import { searchSongs } from "../controller/controller.js";
 import { fetchImg } from "../model/model.js";
+import { albumRel } from "../script.js";
 
 
 
@@ -46,6 +48,9 @@ export const buildMainPage = (songs) => {
     randomSongs.forEach(song => {
         const songDiv = document.createElement('div');
         songDiv.classList.add('songDiv');
+        songDiv.addEventListener('click', () => {
+            buildLyricsPage(song.title, song.artists.name, song.lyrics);
+        });
         randomSongsDiv.appendChild(songDiv);
 
         const songTitle = document.createElement('h3');
@@ -61,6 +66,8 @@ export const buildMainPage = (songs) => {
 }
 
 export const buildSearchPage = (songs) => {
+    app.innerHTML = '';
+
     const headerDiv = document.createElement('div');
     headerDiv.classList.add('headerDiv');
     app.appendChild(headerDiv);
@@ -133,6 +140,8 @@ export const buildSearchSongs = async (searchResults) => {
 }
 
 export const buildArtistsHomePage = async (artists) => {
+    app.innerHTML = '';
+
     const welcomeDiv = document.createElement('div');
     welcomeDiv.classList.add('welcomeDiv');
     app.appendChild(welcomeDiv);
@@ -159,23 +168,21 @@ export const buildArtistsHomePage = async (artists) => {
 
     const randomArtists = getRandomItems(artists, 2);
 
-    
+
 
     for (const artist of randomArtists) {
         const artistCard = document.createElement('div');
         artistCard.classList.add('artistCard');
         artistsCardDiv.appendChild(artistCard);
-    
 
-        
         const artistImg = document.createElement('img');
-        artistImg.src = await fetchImg('artists',artist.image);
+        artistImg.src = await fetchImg('artists', artist.image);
         artistCard.appendChild(artistImg);
-    
+
         const artistName = document.createElement('h3');
         artistName.textContent = artist.name;
         artistCard.appendChild(artistName);
-    
+
         const artistBio = document.createElement('p');
         artistBio.textContent = artist.description;
         artistCard.appendChild(artistBio);
@@ -183,11 +190,169 @@ export const buildArtistsHomePage = async (artists) => {
         const artistButton = document.createElement('button');
         artistButton.textContent = 'Gå til kunstner';
         artistButton.addEventListener('click', () => {
-            console.log('Klik på artist');
+            buildArtistsSinglePage(artist);
         });
         artistCard.appendChild(artistButton);
     }
 }
+
+export const buildLoginPage = () => {
+    app.innerHTML = '';
+
+    const loginDiv = document.createElement('div');
+    loginDiv.classList.add('loginDiv');
+    app.appendChild(loginDiv);
+
+    const h1 = document.createElement('h1');
+    h1.textContent = 'Log ind';
+    loginDiv.appendChild(h1);
+
+    const p = document.createElement('p');
+    p.textContent = 'Når du logger ind, kan du redigere eksisterende sange og oprette nye sange. Dette giver dig mulighed for at tilpasse indholdet og dele dine kreative værker med andre';
+    loginDiv.appendChild(p);
+
+    const form = document.createElement('form');
+    loginDiv.appendChild(form);
+
+    const usernameH2 = document.createElement('h2');
+    usernameH2.textContent = 'Brugernavn:';
+    form.appendChild(usernameH2);
+
+    const usernameInput = document.createElement('input');
+    usernameInput.setAttribute('type', 'text');
+    usernameInput.setAttribute('placeholder', 'Brugernavn');
+    form.appendChild(usernameInput);
+
+    const passwordH2 = document.createElement('h2');
+    passwordH2.textContent = 'Password:';
+    form.appendChild(passwordH2);
+
+    const passwordInput = document.createElement('input');
+    passwordInput.setAttribute('type', 'password');
+    passwordInput.setAttribute('placeholder', 'Password');
+    form.appendChild(passwordInput);
+
+    const loginButton = document.createElement('button');
+    loginButton.textContent = 'Log ind';
+    form.appendChild(loginButton);
+
+    const forgotPasswordLink = document.createElement('a');
+    forgotPasswordLink.textContent = 'Glemt password?';
+    form.appendChild(forgotPasswordLink);
+
+    const signUpButton = document.createElement('a');
+    signUpButton.textContent = 'Opret bruger';
+    form.appendChild(signUpButton);
+}
+
+export const buildLyricsPage = (title, artist, lyrics) => {
+    app.innerHTML = '';
+
+    const lyricsDiv = document.createElement('div');
+    lyricsDiv.classList.add('lyricsDiv');
+    app.appendChild(lyricsDiv);
+
+    const h1 = document.createElement('h1');
+    h1.textContent = title;
+    lyricsDiv.appendChild(h1);
+
+    const artistName = document.createElement('h2');
+    artistName.textContent = artist;
+    lyricsDiv.appendChild(artistName);
+
+    const lyricsText = document.createElement('pre');
+    lyricsText.textContent = lyrics;
+    lyricsDiv.appendChild(lyricsText);
+
+    const printButton = document.createElement('button');
+    printButton.textContent = 'Print';
+    lyricsDiv.appendChild(printButton);
+}
+
+export const buildArtistsSinglePage = async (currentArtist) => {
+    app.innerHTML = '';
+
+
+
+    const artistDiv = document.createElement('div');
+    artistDiv.classList.add('artistDiv');
+    app.appendChild(artistDiv);
+
+    const artistImg = document.createElement('img');
+    artistImg.src = await fetchImg('artists', currentArtist.image);
+    artistDiv.appendChild(artistImg);
+
+    const artistName = document.createElement('h1');
+    artistName.textContent = currentArtist.name;
+    artistDiv.appendChild(artistName);
+
+    const artistBio = document.createElement('p');
+    artistBio.textContent = currentArtist.description;
+    artistDiv.appendChild(artistBio);
+
+    const artistAlbumsDiv = document.createElement('div');
+    artistAlbumsDiv.classList.add('artistAlbumsDiv');
+    artistDiv.appendChild(artistAlbumsDiv);
+
+
+    const currentArtistAlbums = albums.filter(album => album.artist_id === currentArtist.id);
+
+    const artistAlbumDiv = document.createElement('div');
+        
+
+
+
+    for (const album of currentArtistAlbums) {
+        if (!album.songs) {
+            album.songs = [];
+        }
+        albumRel.forEach(rel => {
+            if (rel.album_id === album.id) {
+                const song = songs.find(song => song.id === rel.song_id);
+                album.songs.push(song);
+            }
+        });
+
+        const artistAlbumDiv = document.createElement('div');
+        artistAlbumDiv.classList.add('artistAlbumDiv');
+        artistAlbumsDiv.appendChild(artistAlbumDiv);
+
+        const albumImg = document.createElement('img');
+        albumImg.src = await fetchImg('albums', album.image);
+        artistAlbumDiv.appendChild(albumImg);
+
+        const albumTitle = document.createElement('h2');
+        albumTitle.textContent = album.title;
+        artistAlbumDiv.appendChild(albumTitle);
+
+        const albumBio = document.createElement('p');
+        albumBio.textContent = album.description;
+        artistAlbumDiv.appendChild(albumBio);
+
+        const albumSongsDiv = document.createElement('div');
+        albumSongsDiv.classList.add('albumSongsDiv');
+        artistAlbumDiv.appendChild(albumSongsDiv);
+
+        const albumTrackListTitle = document.createElement('h3');
+        albumTrackListTitle.textContent = 'Tracks:';
+        albumSongsDiv.appendChild(albumTrackListTitle);
+
+
+
+        album.songs.forEach(song => {
+            const songDiv = document.createElement('div');
+            songDiv.classList.add('songDiv');
+            albumSongsDiv.appendChild(songDiv);
+            const songTitle = document.createElement('h3');
+            songTitle.textContent = song.title;
+            songDiv.appendChild(songTitle);
+            
+        });
+    }
+}
+
+
+
 
 
 

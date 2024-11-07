@@ -19,27 +19,32 @@ export const fetchSongs = async (searchInput) => {
 
 export async function fetchArtists() {
     const { data, error } = await supabase
-    .from('artists')                      // Tabelnavn
-    .select('*')  // Vælg kolonner og relationer
+    .from('artists')               
+    .select('*')  
 if (error) {
     throw error;
 }
 return data
 }
 
-export async function getAlbums() {
-    try {
-        let { data, error } = await supabase
-            .from('albums')
-            .select('*,artists(name)');
-        if (error) throw error;
-        console.log(data);
+export async function fetchAlbums() {
+    const { data, error } = await supabase
+    .from('albums')               
+    .select('*, artists(name)')  
+if (error) {
+    throw error;
+}
+return data
+}
 
-        return data;
-    } catch (error) {
-        console.error('Error fetching songs:', error);
-        throw error;
-    }
+export async function fetchAlbumRel() {
+    const { data, error } = await supabase
+    .from('album_song_rel')               
+    .select('*, songs(title)')  
+if (error) {
+    throw error;
+}
+return data
 }
 
 export const getRandomItems = (arr, size) => {
