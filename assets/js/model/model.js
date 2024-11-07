@@ -1,5 +1,6 @@
 import { supabase } from "../script.js";
 
+
 export const fetchSongs = async (searchInput) => {
 
         const { data, error } = await supabase

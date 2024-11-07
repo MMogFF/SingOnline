@@ -23,15 +23,11 @@ export const albumRel = await fetchAlbumRel();
 
 
 
-console.log(albumRel);
+
+
 
 
 import { buildMainPage } from './view/view.js';
 
 // buildMainPage(songs);
-// buildSearchPage(songs);
-buildArtistsHomePage(artists);
-// buildLoginPage();
-// buildLyricsPage(songs);
-// buildArtistsSinglePage(artists, albums)
 
