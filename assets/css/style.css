@@ -1,5 +1,106 @@
 * {
-    margin: 0;
-    padding: 0;
-    font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background-color: #131313;
+  color: white;
+}
+
+#app {
+  height: 32rem;
+  margin-top: 1.8rem;
+  margin-left: 3rem;
+  margin-right: 3rem;
+  background-color: #232323;
+  border-radius: 0.5rem;
+}
+
+.welcomeDiv {
+  text-align: center;
+  font-weight: 300;
+}
+
+.welcomeDiv span {
+  font-weight: 700;
+}
+
+#nav-container {
+  top: 0;
+  position: fixed;
+  width: 100%;
+}
+
+#nav-top {
+  background-color: #232323;
+  width: 100%;
+  height: 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#logo-container {
+  margin-left: 6rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#logo-container svg {
+  height: 80%;
+  width: 80%;
+}
+
+#link-container {
+  margin-right: 6rem;
+}
+
+#link-container a {
+  margin-right: 2rem;
+  font-weight: 600;
+  font-size: larger;
+  text-decoration: none;
+  color: white;
+}
+
+#footer-container {
+  bottom: 0;
+  position: fixed;
+  width: 100%;
+  background-color: #232323;
+  height: 4rem;
+}
+
+#footer-text {
+  margin-left: 6rem;
+  margin-right: 6rem;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+
+.randomSongsDiv {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  position: absolute;
+  transform: translateX(-50%);
+  left: 50%;
+}
+
+.randomSongsSectionDiv h2 {
+  margin-left: 7%;
+}
+
+.songDiv {
+  background-color: #4db039;
+  text-align: center;
+  width: 40rem;
+  border-radius: 10rem;
 }
